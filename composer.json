@@ -1,0 +1,31 @@
+{
+    "$schema": "https://getcomposer.org/schema.json",
+    "name": "componist/code-block",
+    "description": "Laravel client for Template Archive API – fetch code blocks, categories, template images and write Blade templates to resources/views/pages",
+    "type": "library",
+    "license": "MIT",
+    "keywords": ["laravel", "componist", "code-block", "api", "blade", "templates","archive","html","css","js"],
+    "require": {
+        "php": "^8.2",
+        "illuminate/support": "^11.0|^12.0",
+        "illuminate/http": "^11.0|^12.0",
+        "illuminate/filesystem": "^11.0|^12.0",
+        "illuminate/config": "^11.0|^12.0",
+        "illuminate/console": "^11.0|^12.0",
+        "componist/code-block-tracking": "@dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "Componist\\CodeBlock\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Componist\\CodeBlock\\CodeBlockServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
