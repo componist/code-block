@@ -2,8 +2,8 @@
 
 namespace Componist\CodeBlock\Console;
 
-use Illuminate\Console\Command;
 use Componist\CodeBlock\Client;
+use Illuminate\Console\Command;
 
 class PullTemplateCommand extends Command
 {
@@ -20,6 +20,7 @@ class PullTemplateCommand extends Command
 
         if ($blockId < 1) {
             $this->error('block_id must be a positive integer.');
+
             return self::FAILURE;
         }
 
@@ -28,12 +29,14 @@ class PullTemplateCommand extends Command
         try {
             $path = $client->createTemplateFromBlockId($blockId, $filename);
             $this->info("Template created: {$path}");
+
             return self::SUCCESS;
         } catch (\Illuminate\Http\Client\RequestException $e) {
-            $this->error('API request failed: ' . $e->getMessage());
+            $this->error('API request failed: '.$e->getMessage());
             if ($e->response) {
                 $this->line($e->response->body());
             }
+
             return self::FAILURE;
         }
     }

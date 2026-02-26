@@ -20,6 +20,7 @@ class TemplateBuilderApiController extends Controller
     {
         try {
             $data = $this->client->getCodeCategories();
+
             return response()->json(['data' => $data]);
         } catch (\Throwable $e) {
             return response()->json(['message' => $e->getMessage()], 502);
@@ -35,6 +36,7 @@ class TemplateBuilderApiController extends Controller
         try {
             $data = $this->client->getCodeBlocks($categoryId);
             $data = $this->client->withPreviewImageUrls($data);
+
             return response()->json(['data' => $data]);
         } catch (\Throwable $e) {
             return response()->json(['message' => $e->getMessage()], 502);
@@ -70,9 +72,10 @@ class TemplateBuilderApiController extends Controller
                 ];
             }
             $path = $this->client->createTemplateFromBlocks($blocks, $name);
+
             return response()->json([
                 'path' => $path,
-                'message' => 'Template gespeichert: ' . basename($path),
+                'message' => 'Template gespeichert: '.basename($path),
             ]);
         } catch (\Throwable $e) {
             return response()->json(['message' => $e->getMessage()], 502);

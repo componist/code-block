@@ -10,18 +10,19 @@ class Client
         protected ApiClient $apiClient,
         protected TemplateWriter $templateWriter,
         protected string $baseUrl,
-    ) {
-    }
+    ) {}
 
     /**
      * Get all code blocks (optionally filtered by category_id).
      *
      * @return array<int, array<string, mixed>>
+     *
      * @throws RequestException
      */
     public function getCodeBlocks(?int $categoryId = null): array
     {
         $response = $this->apiClient->getCodeBlocks($categoryId);
+
         return $response['data'] ?? [];
     }
 
@@ -29,6 +30,7 @@ class Client
      * Get a single code block by ID.
      *
      * @return array<string, mixed>
+     *
      * @throws RequestException
      */
     public function getCodeBlock(int $id): array
@@ -40,11 +42,13 @@ class Client
      * Get all code categories.
      *
      * @return array<int, array<string, mixed>>
+     *
      * @throws RequestException
      */
     public function getCodeCategories(): array
     {
         $response = $this->apiClient->getCodeCategories();
+
         return $response['data'] ?? [];
     }
 
@@ -52,6 +56,7 @@ class Client
      * Get a single code category with its code blocks.
      *
      * @return array<string, mixed>
+     *
      * @throws RequestException
      */
     public function getCodeCategory(int $id): array
@@ -73,7 +78,8 @@ class Client
         }
         $base = rtrim($this->baseUrl, '/');
         $path = ltrim(str_replace('public/', '', $previewImagePath), '/');
-        return $base . '/storage/' . $path;
+
+        return $base.'/storage/'.$path;
     }
 
     /**
@@ -88,6 +94,7 @@ class Client
             $path = $block['preview_image'] ?? null;
             $blocks[$i]['preview_image_url'] = $this->getPreviewImageUrl($path);
         }
+
         return $blocks;
     }
 
@@ -109,11 +116,13 @@ class Client
      * @param  int  $codeBlockId  Code block ID from Template Archive API
      * @param  string  $filename  Filename without extension (e.g. "hero-page")
      * @return string Full path to the created file
+     *
      * @throws RequestException
      */
     public function createTemplateFromBlockId(int $codeBlockId, string $filename): string
     {
         $block = $this->apiClient->getCodeBlock($codeBlockId);
+
         return $this->templateWriter->createFromBlock([
             'html' => $block['html'] ?? null,
             'css' => $block['css'] ?? null,

@@ -11,7 +11,7 @@ return [
     | No trailing slash.
     |
     */
-    'base_url' => env('BASE_URL','http://templatearchive.test') ,
+    'base_url' => env('BASE_URL', 'http://templatearchive.test'),
 
     /*
     |--------------------------------------------------------------------------
@@ -95,7 +95,7 @@ return [
     'builder' => [
         'api_prefix' => env('CODE_BLOCK_BUILDER_API_PREFIX', 'code-block-builder'),
         'middleware' => ['web'], // z. B. ['auth'] für geschützten Zugriff
-        
+
         // Eigene Route + Blade-Seite für den Builder (Blade lädt die Seite, Alpine greift per API auf Kategorien/Blöcke zu)
         'route' => [
             'enabled' => env('CODE_BLOCK_BUILDER_ROUTE_ENABLED', true),

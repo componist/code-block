@@ -2,8 +2,8 @@
 
 namespace Componist\CodeBlock\Console;
 
-use Illuminate\Console\Command;
 use Componist\CodeBlock\Client;
+use Illuminate\Console\Command;
 
 class ListCategoriesCommand extends Command
 {
@@ -16,12 +16,14 @@ class ListCategoriesCommand extends Command
         try {
             $categories = $client->getCodeCategories();
         } catch (\Illuminate\Http\Client\RequestException $e) {
-            $this->error('API request failed: ' . $e->getMessage());
+            $this->error('API request failed: '.$e->getMessage());
+
             return self::FAILURE;
         }
 
         if (empty($categories)) {
             $this->info('No categories found.');
+
             return self::SUCCESS;
         }
 

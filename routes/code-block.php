@@ -1,9 +1,9 @@
 <?php
 
-use Componist\CodeBlockTracking\Http\Controllers\CodeBlockBuilderScriptController;
 use Componist\CodeBlock\Http\Controllers\ShowTemplateBuilderPageController;
 use Componist\CodeBlock\Http\Controllers\ShowTemplateController;
 use Componist\CodeBlock\Http\Controllers\TemplateBuilderApiController;
+use Componist\CodeBlockTracking\Http\Controllers\CodeBlockBuilderScriptController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,7 +18,7 @@ if (! empty($templateRouteConfig['enabled'])) {
     $middleware = $templateRouteConfig['middleware'] ?? [];
 
     Route::middleware($middleware)
-        ->get($prefix . '/{name}', ShowTemplateController::class)
+        ->get($prefix.'/{name}', ShowTemplateController::class)
         ->name($routeName)
         ->where('name', '[a-z0-9_-]+');
 }

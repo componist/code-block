@@ -18,7 +18,7 @@ class ShowTemplateController extends Controller
         }
 
         $viewsPath = str_replace('/', '.', config('code-block.views_path', 'pages'));
-        $viewName = $viewsPath . '.' . $name;
+        $viewName = $viewsPath.'.'.$name;
 
         if (! View::exists($viewName)) {
             abort(404, 'Template nicht gefunden');

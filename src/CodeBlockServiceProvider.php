@@ -12,15 +12,15 @@ class CodeBlockServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->mergeConfigFrom(
-            __DIR__ . '/../config/code-block.php',
+            __DIR__.'/../config/code-block.php',
             'code-block'
         );
     }
 
     public function boot(): void
     {
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'code-block');
-        $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'code-block');
+        $this->loadRoutesFrom(__DIR__.'/../routes/code-block.php');
 
         if ($this->app->runningInConsole()) {
             $this->commands([
@@ -30,7 +30,7 @@ class CodeBlockServiceProvider extends ServiceProvider
             ]);
 
             $this->publishes([
-                __DIR__ . '/../config/code-block.php' => $this->app->configPath('code-block.php'),
+                __DIR__.'/../config/code-block.php' => $this->app->configPath('code-block.php'),
             ], 'componist-code-block-config');
         }
 

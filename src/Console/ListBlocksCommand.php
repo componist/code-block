@@ -2,8 +2,8 @@
 
 namespace Componist\CodeBlock\Console;
 
-use Illuminate\Console\Command;
 use Componist\CodeBlock\Client;
+use Illuminate\Console\Command;
 
 class ListBlocksCommand extends Command
 {
@@ -26,12 +26,14 @@ class ListBlocksCommand extends Command
                 $blocks = $client->withPreviewImageUrls($blocks);
             }
         } catch (\Illuminate\Http\Client\RequestException $e) {
-            $this->error('API request failed: ' . $e->getMessage());
+            $this->error('API request failed: '.$e->getMessage());
+
             return self::FAILURE;
         }
 
         if (empty($blocks)) {
             $this->info('No code blocks found.');
+
             return self::SUCCESS;
         }
 

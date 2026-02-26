@@ -9,8 +9,7 @@ class TemplateWriter
     public function __construct(
         protected string $viewsBasePath,
         protected string $viewsSubPath = 'pages',
-    ) {
-    }
+    ) {}
 
     /**
      * Get the full directory path for views (e.g. resources/views/pages).
@@ -19,8 +18,9 @@ class TemplateWriter
     {
         $path = $this->viewsBasePath;
         if ($this->viewsSubPath !== '') {
-            $path .= DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $this->viewsSubPath);
+            $path .= DIRECTORY_SEPARATOR.str_replace('/', DIRECTORY_SEPARATOR, $this->viewsSubPath);
         }
+
         return $path;
     }
 
@@ -33,6 +33,7 @@ class TemplateWriter
         if (! File::isDirectory($path)) {
             return File::makeDirectory($path, 0755, true);
         }
+
         return true;
     }
 
@@ -48,7 +49,7 @@ class TemplateWriter
         $this->ensureViewsDirectoryExists();
 
         $filename = preg_replace('/[^a-zA-Z0-9_-]/', '', $filename) ?: 'template';
-        $filepath = $this->getViewsPath() . DIRECTORY_SEPARATOR . $filename . '.blade.php';
+        $filepath = $this->getViewsPath().DIRECTORY_SEPARATOR.$filename.'.blade.php';
 
         $htmlParts = [];
         $cssParts = [];
@@ -84,7 +85,6 @@ class TemplateWriter
      * Create a Blade template from a single code block.
      *
      * @param  array{html?: string|null, css?: string|null, js?: string|null}  $block
-     * @param  string  $filename
      * @return string Full path to the created file
      */
     public function createFromBlock(array $block, string $filename): string
@@ -112,7 +112,7 @@ class TemplateWriter
             $lines[] = '    <style>';
             $lines[] = '@verbatim';
             foreach (explode("\n", $css) as $line) {
-                $lines[] = '    ' . $line;
+                $lines[] = '    '.$line;
             }
             $lines[] = '@endverbatim';
             $lines[] = '    </style>';
@@ -130,7 +130,7 @@ class TemplateWriter
             $lines[] = '    <script>';
             $lines[] = '@verbatim';
             foreach (explode("\n", $js) as $line) {
-                $lines[] = '    ' . $line;
+                $lines[] = '    '.$line;
             }
             $lines[] = '@endverbatim';
             $lines[] = '    </script>';
