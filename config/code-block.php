@@ -76,10 +76,10 @@ return [
     |
     */
     'route' => [
-        'enabled' => env('CODE_BLOCK_TEMPLATE_ROUTE_ENABLED', true),
+        'enabled' => env('CODE_BLOCK_TEMPLATE_ROUTE_ENABLED', false),
         'prefix' => env('CODE_BLOCK_TEMPLATE_ROUTE_PREFIX'), // null = views_path (z. B. "pages")
         'name' => env('CODE_BLOCK_TEMPLATE_ROUTE_NAME', 'code-block.template.show'),
-        'middleware' => [], // z. B. ['web'] oder ['auth']
+        'middleware' => ['web', 'auth'],
     ],
 
     /*
@@ -94,14 +94,14 @@ return [
     */
     'builder' => [
         'api_prefix' => env('CODE_BLOCK_BUILDER_API_PREFIX', 'code-block-builder'),
-        'middleware' => ['web'], // z. B. ['auth'] für geschützten Zugriff
+        'middleware' => ['web', 'auth'],
 
         // Eigene Route + Blade-Seite für den Builder (Blade lädt die Seite, Alpine greift per API auf Kategorien/Blöcke zu)
         'route' => [
-            'enabled' => env('CODE_BLOCK_BUILDER_ROUTE_ENABLED', true),
+            'enabled' => env('CODE_BLOCK_BUILDER_ROUTE_ENABLED', false),
             'path' => env('CODE_BLOCK_BUILDER_ROUTE_PATH', 'builder'),
             'name' => env('CODE_BLOCK_BUILDER_ROUTE_NAME', 'code-block.builder.page'),
-            'middleware' => ['web'],
+            'middleware' => ['web', 'auth'],
         ],
     ],
 

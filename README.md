@@ -35,17 +35,17 @@ composer require componist/code-block
 | `TEMPLATE_ARCHIVE_VIEWS_PATH` | `views_path` | `pages` | Unterordner unter `resources/views`, in dem Blade-Templates erzeugt werden (z. B. `pages` → `resources/views/pages/`). |
 | – | `api_cache_enabled` | `true` | API-Antworten (Kategorien, Code-Blöcke) cachen. |
 | – | `api_cache_ttl_minutes` | `30` | Cache-Laufzeit in Minuten (nur wirksam wenn `api_cache_enabled` true). |
-| `CODE_BLOCK_TEMPLATE_ROUTE_ENABLED` | `route.enabled` | `true` | Route zum Anzeigen gebauter Templates aktivieren. |
+| `CODE_BLOCK_TEMPLATE_ROUTE_ENABLED` | `route.enabled` | `false` | Route zum Anzeigen gebauter Templates aktivieren. |
 | `CODE_BLOCK_TEMPLATE_ROUTE_PREFIX` | `route.prefix` | *(leer = views_path)* | URL-Prefix für Template-Anzeige (z. B. `pages` oder `template`). Leer = Wert von `views_path`. |
 | `CODE_BLOCK_TEMPLATE_ROUTE_NAME` | `route.name` | `code-block.template.show` | Name der Template-Anzeige-Route. |
-| – | `route.middleware` | `[]` | Middleware für die Template-Anzeige-Route (z. B. `['web']`, `['auth']`). |
+| – | `route.middleware` | `['web', 'auth']` | Middleware für die Template-Anzeige-Route. |
 | `CODE_BLOCK_BUILDER_API_PREFIX` | `builder.api_prefix` | `code-block-builder` | URL-Prefix für Builder-API (Kategorien, Blöcke, Speichern) und Asset. |
 | `CODE_BLOCK_BUILDER_OMIT_CDN` | `builder.omit_cdn` | `false` | `true` = Tailwind und Alpine nicht per CDN laden (wenn die Host-App sie bereits einbindet). |
-| – | `builder.middleware` | `['web']` | Middleware für alle Builder-API-Routen. |
-| `CODE_BLOCK_BUILDER_ROUTE_ENABLED` | `builder.route.enabled` | `true` | Eigene Builder-Seiten-Route aktivieren. |
+| – | `builder.middleware` | `['web', 'auth']` | Middleware für alle Builder-API-Routen. |
+| `CODE_BLOCK_BUILDER_ROUTE_ENABLED` | `builder.route.enabled` | `false` | Eigene Builder-Seiten-Route aktivieren. |
 | `CODE_BLOCK_BUILDER_ROUTE_PATH` | `builder.route.path` | `builder` | URL-Pfad der Builder-Seite (z. B. `/builder`). |
 | `CODE_BLOCK_BUILDER_ROUTE_NAME` | `builder.route.name` | `code-block.builder.page` | Name der Builder-Seiten-Route. |
-| – | `builder.route.middleware` | `['web']` | Middleware für die Builder-Seiten-Route. |
+| – | `builder.route.middleware` | `['web', 'auth']` | Middleware für die Builder-Seiten-Route. |
 | `CODE_BLOCK_BUILDER_PAGE_TITLE` | `builder.page_title` | `Template Builder` | Seitentitel der Builder-Seite. |
 
 ### Kompletter .env-Block (zum Kopieren)
@@ -66,13 +66,14 @@ TEMPLATE_ARCHIVE_API_KEY=
 TEMPLATE_ARCHIVE_VIEWS_PATH=pages
 
 # Route: gebaute Templates im Browser anzeigen (GET /pages/hero-page etc.)
-CODE_BLOCK_TEMPLATE_ROUTE_ENABLED=true
+# In Production aus; bei Bedarf mit Auth aktivieren
+CODE_BLOCK_TEMPLATE_ROUTE_ENABLED=false
 # CODE_BLOCK_TEMPLATE_ROUTE_PREFIX=pages
 # CODE_BLOCK_TEMPLATE_ROUTE_NAME=code-block.template.show
 
-# Builder-API und Builder-Seite
+# Builder-API und Builder-Seite (Default aus, Middleware auth)
 CODE_BLOCK_BUILDER_API_PREFIX=code-block-builder
-CODE_BLOCK_BUILDER_ROUTE_ENABLED=true
+CODE_BLOCK_BUILDER_ROUTE_ENABLED=false
 CODE_BLOCK_BUILDER_ROUTE_PATH=builder
 # CODE_BLOCK_BUILDER_ROUTE_NAME=code-block.builder.page
 CODE_BLOCK_BUILDER_PAGE_TITLE=Template Builder
@@ -209,7 +210,7 @@ $writer->ensureViewsDirectoryExists();
 
 ---
 
-## Artisan-Befehle
+## Commands
 
 | Befehl | Beschreibung |
 |--------|---------------|
@@ -302,6 +303,23 @@ Antwort bei Erfolg: `{ "path": "...", "message": "..." }`. Bei Fehler: 502 mit `
 - Cache-Key-Präfix: `componist.code_block.api`. Bei `app.debug` true wird ein Cache-Hit ins Log geschrieben.
 
 ---
+
+## Berechtigungen
+
+- Builder-Seite, Builder-API und Template-Show: Middleware laut `config/code-block.php` (im Monorepo typisch `web` + `auth`)
+- Feature-Flags: `CODE_BLOCK_BUILDER_ROUTE_ENABLED`, `CODE_BLOCK_TEMPLATE_ROUTE_ENABLED` (Production: bewusst setzen; ohne API-Key nicht freigeben)
+- Kein separates Admin-Gate — Zugang über Auth-Middleware und Env-Flags
+
+## Tests
+
+```bash
+php artisan test --compact --testsuite="Code Block"
+```
+
+## Hinweise
+
+- Feature-Flags und Auth-Middleware für Builder/Template-Show in Production bewusst setzen.
+- API-Key (`TEMPLATE_ARCHIVE_API_KEY`) nicht committen; bei Cache-Problemen TTL prüfen.
 
 ## Lizenz
 

@@ -5,6 +5,7 @@ namespace Componist\CodeBlock;
 use Componist\CodeBlock\Console\ListBlocksCommand;
 use Componist\CodeBlock\Console\ListCategoriesCommand;
 use Componist\CodeBlock\Console\PullTemplateCommand;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
 class CodeBlockServiceProvider extends ServiceProvider
@@ -20,7 +21,10 @@ class CodeBlockServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'code-block');
-        $this->loadRoutesFrom(__DIR__.'/../routes/code-block.php');
+
+        Route::group(['middleware' => ['web']], function (): void {
+            $this->loadRoutesFrom(__DIR__.'/../routes/code-block.php');
+        });
 
         if ($this->app->runningInConsole()) {
             $this->commands([
