@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>componist Code-Block Builder – {{ config('app.name') }}</title>
+    @include('component::components.layouts.partials.theme-boot')
 </head>
 <body class="min-h-screen bg-gray-100 antialiased">
 <style>[x-cloak] { display: none !important; }</style>
