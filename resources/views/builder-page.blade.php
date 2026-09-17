@@ -52,12 +52,12 @@ window.CODE_BLOCK_BUILDER_API = {
                         class="cursor-grab active:cursor-grabbing w-full overflow-hidden rounded-lg border border-gray-200 text-left transition-shadow hover:shadow-md"
                     >
                         <template x-if="block.preview_image_url">
-                            <div class="w-full">
-                                <img :src="block.preview_image_url" :alt="block.title" class="h-auto w-full object-cover" />
+                            <div class="w-full overflow-hidden bg-gray-100">
+                                <img :src="block.preview_image_url" :alt="block.title" class="h-auto w-full block" />
                             </div>
                         </template>
                         <template x-if="!block.preview_image_url">
-                            <div class="flex h-28 w-full items-center justify-center bg-gray-100 text-gray-500">Kein Vorschaubild</div>
+                            <div class="flex aspect-video w-full items-center justify-center bg-gray-100 text-gray-500">Kein Vorschaubild</div>
                         </template>
                         <div class="bg-gray-50 p-3">
                             <p class="text-sm font-medium text-gray-900" x-text="block.title"></p>
@@ -104,7 +104,7 @@ window.CODE_BLOCK_BUILDER_API = {
                         >
                             <template x-if="block.preview_image_url">
                                 <div class="w-full overflow-hidden">
-                                    <img :src="block.preview_image_url" :alt="block.title" class="h-auto w-full object-cover" />
+                                    <img :src="block.preview_image_url" :alt="block.title" class="h-auto w-full" />
                                 </div>
                             </template>
                             <template x-if="!block.preview_image_url">
